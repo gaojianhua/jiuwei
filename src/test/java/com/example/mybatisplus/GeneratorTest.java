@@ -25,11 +25,12 @@ public class GeneratorTest {
     //表名
     private List<String> tables = Arrays.asList(new String[]{"netdisk_file_segment", "netdisk_file_storage"});
 
-    private String url = "jdbc:mysql://nanshanjing.orangecrde.com:31967/tiangou?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai";
+    private String url = "jdbc:mysql://localhost:3306/tiangou?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai";
 
     private String username = "root";
 
-    private String password = "1qaz2wsx";
+    private String password = "root";
+
     @Test
     public void generatorTest() {
 
