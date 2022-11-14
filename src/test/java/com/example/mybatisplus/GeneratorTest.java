@@ -2,10 +2,12 @@ package com.example.mybatisplus;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
+import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -19,13 +21,15 @@ import java.util.List;
 public class GeneratorTest {
 
     //输出目录
-    public String outputDir = "D://autocode";
+    public String projectPath = System.getProperty("user.dir");
+
+    public String outputDir = projectPath + "/mybatis-plus-generator/";
     //包名
     private String moduleName = "netdisk";
     //表名
     private List<String> tables = Arrays.asList(new String[]{"netdisk_file_segment", "netdisk_file_storage"});
 
-    private String url = "jdbc:mysql://localhost:3306/tiangou?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai";
+    private String url = "jdbc:mysql://nanshanjing.orangecrde.com:31967/tiangou?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai";
 
     private String username = "root";
 
@@ -51,9 +55,18 @@ public class GeneratorTest {
                     builder.addInclude(tables) // 设置需要生成的表名
                             .addTablePrefix("t_", "c_")
                             .entityBuilder().enableLombok().formatFileName("%sModel").enableTableFieldAnnotation()
+                            //.addIgnoreColumns()
                             .mapperBuilder().enableBaseColumnList().enableBaseResultMap(); // 设置过滤表前缀
                 })
-                //  .templateEngine(new FreemarkerTemplateEngine()) 使用Freemarker引擎模板，默认的是Velocity引擎模板
+                .injectionConfig(consumer -> {
+                    List<CustomFile> customFiles = new ArrayList<>();
+                    customFiles.add(new CustomFile.Builder().fileName("DTO.java").templatePath("/templates/entityDTO.java.vm").packageName("dto").build());
+                    customFiles.add(new CustomFile.Builder().fileName("VO.java").templatePath("/templates/entityDTO.java.vm").packageName("vo").build());
+                    consumer.beforeOutputFile((tableInfo, objectMap) -> {
+                        System.out.println("===>tableInfo: " + tableInfo.getEntityName() + " objectMap: " + objectMap.size());
+                    }).customFile(customFiles);
+                })
+                //.templateEngine(new FreemarkerTemplateEngine()) //使用Freemarker引擎模板，默认的是Velocity引擎模板
                 .execute();
         log.info("===> mybatis-plus generator execute success! ");
 
