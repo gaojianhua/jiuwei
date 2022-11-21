@@ -1,3 +1,3 @@
 # jiuwei
 
-mybatis-plus example
+java learning

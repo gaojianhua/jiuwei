@@ -1,0 +1,12 @@
+repositories {
+    mavenCentral()
+}
+/** 设置jar包名称*/
+bootJar {
+    archiveFileName = rootProject.name + "-${archiveBaseName.get()}.${archiveExtension.get()}"
+}
+
+dependencies {
+}
+
+

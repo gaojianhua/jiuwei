@@ -1,14 +1,14 @@
+buildscript {
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.7.5"
+    }
+}
+
 plugins {
     id 'org.springframework.boot' version "${spring_boot_version}"
     id 'io.spring.dependency-management' version "${dependency_management_version}"
     id 'java'
 }
-
-group = 'com.example'
-version = '1.0.0'
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-description = "Mybatis plus example"
 
 configurations {
     compileOnly {
@@ -16,35 +16,61 @@ configurations {
     }
 }
 
-repositories {
-    mavenLocal()
-    maven { url 'https://maven.aliyun.com/repository/google/' }
-    maven { url 'https://maven.aliyun.com/repository/public/' }
-    maven { url 'https://maven.aliyun.com/repository/spring/' }
-    maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }
-    maven { url 'https://maven.aliyun.com/repository/spring-plugin/' }
-    mavenCentral()
+allprojects{
+    group = 'com.example'
+    version = '1.0.0'
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    description = "java learning"
+
+    repositories {
+        mavenLocal()
+        maven { url 'https://maven.aliyun.com/repository/google/' }
+        maven { url 'https://maven.aliyun.com/repository/public/' }
+        maven { url 'https://maven.aliyun.com/repository/spring/' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }
+        maven { url 'https://maven.aliyun.com/repository/spring-plugin/' }
+        mavenCentral()
+    }
 }
 
-dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-web:${spring_boot_version}"
-    //implementation "org.springframework.boot:spring-boot-starter-freemarker:${spring_boot_version}"
+subprojects{
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java'
 
-    implementation "com.baomidou:mybatis-plus-boot-starter:${mybatis_plus_version}"
-    testImplementation "com.baomidou:mybatis-plus-generator:${mybatis_plus_generator_version}"
-    testImplementation "org.apache.velocity:velocity-engine-core:${velocity_engine_core_version}"
+    dependencyManagement {
+        imports {
+            mavenBom "com.google.code.gson:gson:${gson_version}"
+        }
+        dependencies {
 
-    compileOnly "org.projectlombok:lombok:${lombok_version}"
-    annotationProcessor "org.projectlombok:lombok:${lombok_version}"
-    testCompileOnly "org.projectlombok:lombok:${lombok_version}"
-    testAnnotationProcessor "org.projectlombok:lombok:${lombok_version}"
+        }
+    }
+    dependencies {
+        implementation "org.springframework.boot:spring-boot-starter-web:${spring_boot_version}"
+        //implementation "org.springframework.boot:spring-boot-starter-freemarker:${spring_boot_version}"
 
-    runtimeOnly "com.h2database:h2:${h2_version}"
-    runtimeOnly "com.mysql:mysql-connector-j:${mysql_j_version}"
+        implementation "com.baomidou:mybatis-plus-boot-starter:${mybatis_plus_version}"
+        testImplementation "com.baomidou:mybatis-plus-generator:${mybatis_plus_generator_version}"
+        testImplementation "org.apache.velocity:velocity-engine-core:${velocity_engine_core_version}"
 
-    testImplementation "org.springframework.boot:spring-boot-starter-test:${spring_boot_version}"
+        compileOnly "org.projectlombok:lombok:${lombok_version}"
+        annotationProcessor "org.projectlombok:lombok:${lombok_version}"
+        testCompileOnly "org.projectlombok:lombok:${lombok_version}"
+        testAnnotationProcessor "org.projectlombok:lombok:${lombok_version}"
+
+        runtimeOnly "com.h2database:h2:${h2_version}"
+        runtimeOnly "com.mysql:mysql-connector-j:${mysql_j_version}"
+
+        testImplementation "org.springframework.boot:spring-boot-starter-test:${spring_boot_version}"
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+bootJar {
+    enabled = false
 }

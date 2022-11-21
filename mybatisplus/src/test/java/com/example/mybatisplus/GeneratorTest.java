@@ -35,7 +35,7 @@ public class GeneratorTest {
 
     private String password = "root";
 
-    @Test
+    //@Test
     public void generatorTest() {
 
         FastAutoGenerator.create(url, username, password)
