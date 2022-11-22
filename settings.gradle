@@ -1,3 +1,5 @@
 rootProject.name = 'jiuwei'
 
 include 'mybatisplus'
+
+include 'spring-graphql'
