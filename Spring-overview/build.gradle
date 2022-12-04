@@ -4,15 +4,11 @@ repositories {
 
 dependencies {
 
-    implementation "org.springframework.boot:spring-boot-starter-graphql:${spring_boot_version}"
+//    implementation "org.springframework.boot:spring-boot-starter-graphql:${spring_boot_version}"
 //    testImplementation "org.springframework.graphql:spring-graphql-test:${spring_boot_version}"
-    implementation 'com.graphql-java:graphql-java-tools:5.2.4'
+//    implementation 'com.graphql-java:graphql-java-tools:5.2.4'
 
 //    runtimeOnly 'com.h2database:h2'
 //    testImplementation 'org.springframework:spring-webflux'
 
 }
-
-//tasks.named('test') {
-//    useJUnitPlatform()
-//}
